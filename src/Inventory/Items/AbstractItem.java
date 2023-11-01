@@ -10,14 +10,47 @@ public abstract class AbstractItem implements Item, Categorizable, Breakable, Pe
     private boolean breakable;
     private boolean perishable;
     private double price;
+
+    public static void setNextItemId(int nextItemId) {
+        AbstractItem.nextItemId = nextItemId;
+    }
+
+    public AbstractItem setId(int id) {
+        this.id = id;
+        return this;
+    }
+
+    public AbstractItem setName(String name) {
+        this.name = name;
+        return this;
+    }
+
+    public AbstractItem setBreakable(boolean breakable) {
+        this.breakable = breakable;
+        return this;
+    }
+
+    public AbstractItem setPerishable(boolean perishable) {
+        this.perishable = perishable;
+        return this;
+    }
+
+    public AbstractItem setPrice(double price) {
+        this.price = price;
+        return this;
+    }
+
+    public AbstractItem setQuantity(double quantity) {
+        this.quantity = quantity;
+        return this;
+    }
+
     private double quantity;
 
-    public AbstractItem(String name, String category, boolean breakable, boolean perishable, double price, double quantity) {
+    public AbstractItem(String name, String category, double price, double quantity) {
         this.id = nextItemId++;
         this.name = name;
         this.category = category;
-        this.breakable = breakable;
-        this.perishable = perishable;
         this.price = price;
         this.quantity = quantity;
     }
@@ -36,6 +69,9 @@ public abstract class AbstractItem implements Item, Categorizable, Breakable, Pe
 
     public String getCategory() {
         return category;
+    }
+    public void setCategory(String category) {
+
     }
 
     public int getId() {
@@ -64,5 +100,10 @@ public abstract class AbstractItem implements Item, Categorizable, Breakable, Pe
     @Override
     public String toString() {
         return "Id: " + getId() + ", Name: " + getName() + ", Category: " + getCategory() + ", Price: " + getPrice() + ", Quantity: " + getQuantity();
+    }
+
+    @Override
+    public void sell(String itemId) {
+
     }
 }
