@@ -30,7 +30,7 @@ public class ECommerceApp {
                 switch (choice) {
                     case 1:
                         itemProcessor.findAllItems();
-                        System.out.println("Please enter item id and quantity, separated by a comma:");
+                        System.out.println("Please enter item id and quantity, each on a new line:");
                         System.out.println("Type Exit when you want to exit this command");
                         Order order = new Order();
                         String input = scanner.nextLine();
