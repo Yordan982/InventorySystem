@@ -14,11 +14,11 @@ public class ItemFactory {
         String type = input[0];
         return switch (type) {
             case "Grocery" ->
-                    new GroceryItem(input[1], input[2], Double.parseDouble(input[3]), Double.parseDouble(input[4]));
+                    new GroceryItem(input[1], input[2], Double.parseDouble(input[3]), Integer.parseInt(input[4]));
             case "Electronics" ->
-                    new ElectronicsItem(input[1], input[2], Double.parseDouble(input[3]), Double.parseDouble(input[4]));
+                    new ElectronicsItem(input[1], input[2], Double.parseDouble(input[3]), Integer.parseInt(input[4]));
             case "Fragile" ->
-                    new FragileItem(input[1], input[2], Double.parseDouble(input[3]), Double.parseDouble(input[4]));
+                    new FragileItem(input[1], input[2], Double.parseDouble(input[3]), Integer.parseInt(input[4]));
             default -> null;
         };
     }

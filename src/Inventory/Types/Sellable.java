@@ -1,5 +1,5 @@
 package Inventory.Types;
 
 public interface Sellable {
-    void sell(String itemId);
+    void sell(int id);
 }

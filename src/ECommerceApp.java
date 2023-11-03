@@ -1,8 +1,6 @@
-import Inventory.InventoryManager;
-import Inventory.ItemFactory;
-import Inventory.ItemProcessor;
+import Inventory.*;
 import Inventory.Items.AbstractItem;
-import Inventory.PaymentProcessor;
+import Inventory.Items.GroceryItem;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -20,13 +18,30 @@ public class ECommerceApp {
         boolean isRunning = true;
         ItemFactory itemFactory = new ItemFactory();
 
+        GroceryItem item = new GroceryItem("Banana", "Fruit", 2.69, 100);
+        GroceryItem item2 = new GroceryItem("Pineapple", "Fruit", 3.89, 100);
+        itemProcessor.addItem(item);
+        itemProcessor.addItem(item2);
+
         while (isRunning) {
             try {
                 System.out.print("Enter command (1-5): ");
                 int choice = Integer.parseInt(scanner.nextLine());
                 switch (choice) {
                     case 1:
-                        inventoryManager.listItems();
+                        itemProcessor.findAllItems();
+                        System.out.println("Please enter item id and quantity, separated by a comma:");
+                        System.out.println("Type Exit when you want to exit this command");
+                        Order order = new Order();
+                        String input = scanner.nextLine();
+                        while (!input.equals("Exit")) {
+                            int itemId = Integer.parseInt(input);
+                            int quantity = Integer.parseInt(scanner.nextLine());
+                            itemProcessor.sellQuantity(itemId, quantity);
+                            order.addToCart(itemProcessor.getItem(itemId), quantity);
+                            input = scanner.nextLine();
+                        }
+                        order.showOrder();
                         break;
                     case 2:
                         itemProcessor.findAllItems();
@@ -66,7 +81,7 @@ public class ECommerceApp {
     }
 
     private static Object composeAbstractItem(String input) throws ClassNotFoundException, InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
-        String[] itemValues = input.split(" ");
+        String[] itemValues = input.split("\\s+");
         Class<?> className = Class.forName(String.format("Inventory.Items.%s",itemValues[0]));
         Constructor<?> constructor = className.getConstructor();
         return constructor.newInstance((Object[]) Arrays.copyOfRange(itemValues, 1, itemValues.length));

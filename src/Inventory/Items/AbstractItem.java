@@ -10,6 +10,8 @@ public abstract class AbstractItem implements Item, Categorizable, Breakable, Pe
     private boolean breakable;
     private boolean perishable;
     private double price;
+    private int quantity;
+
 
     public static void setNextItemId(int nextItemId) {
         AbstractItem.nextItemId = nextItemId;
@@ -40,14 +42,12 @@ public abstract class AbstractItem implements Item, Categorizable, Breakable, Pe
         return this;
     }
 
-    public AbstractItem setQuantity(double quantity) {
+    public AbstractItem setQuantity(int quantity) {
         this.quantity = quantity;
         return this;
     }
 
-    private double quantity;
-
-    public AbstractItem(String name, String category, double price, double quantity) {
+    public AbstractItem(String name, String category, double price, int quantity) {
         this.id = nextItemId++;
         this.name = name;
         this.category = category;
@@ -85,7 +85,7 @@ public abstract class AbstractItem implements Item, Categorizable, Breakable, Pe
     public double getPrice() {
         return price;
     }
-    public double getQuantity() {
+    public int getQuantity() {
         return quantity;
     }
 
@@ -103,7 +103,6 @@ public abstract class AbstractItem implements Item, Categorizable, Breakable, Pe
     }
 
     @Override
-    public void sell(String itemId) {
-
+    public void sell(int id) {
     }
 }

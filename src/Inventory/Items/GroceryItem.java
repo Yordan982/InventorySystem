@@ -3,7 +3,7 @@ package Inventory.Items;
 public class GroceryItem extends AbstractItem {
 
 
-    public GroceryItem(String name, String category, double price, double quantity) {
+    public GroceryItem(String name, String category, double price, int quantity) {
         super(name, category, price, quantity);
         this.setBreakable(false);
         this.setPerishable(true);
