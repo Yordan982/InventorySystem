@@ -21,9 +21,8 @@ public class ItemProcessor {
     }
     public void removeItem(String id) {
         if (!id.matches("\\d+")) throw new IllegalArgumentException("Input must be a valid number.");
-
-        if (inventory.containsKey(id)) {
-            inventory.remove(id);
+        if (inventory.containsKey(Integer.parseInt(id))) {
+            inventory.remove(Integer.parseInt(id));
             System.out.println("Successfully deleted item id " + id);
         } else {
             System.out.println("This id does not exist.");

@@ -34,14 +34,15 @@ public class ECommerceApp {
                         System.out.println("Type Exit when you want to exit this command");
                         Order order = new Order();
                         String input = scanner.nextLine();
-                        while (!input.equals("Exit")) {
+                        while (!input.equalsIgnoreCase("exit")) {
                             int itemId = Integer.parseInt(input);
                             int quantity = Integer.parseInt(scanner.nextLine());
-                            itemProcessor.sellQuantity(itemId, quantity);
-                            order.addToCart(itemProcessor.getItem(itemId), quantity);
+                            int soldQuantity = itemProcessor.sellQuantity(itemId, quantity);
+                            order.addToCart(itemProcessor.getItem(itemId), soldQuantity);
                             input = scanner.nextLine();
                         }
                         order.showOrder();
+                        order.calculateOrderTotal();
                         break;
                     case 2:
                         itemProcessor.findAllItems();
@@ -55,7 +56,7 @@ public class ECommerceApp {
                         break;
                     case 4:
                         System.out.print("Enter item id: ");
-                        itemProcessor.removeItem(scanner.next());
+                        itemProcessor.removeItem(scanner.nextLine());
                         break;
                     case 5:
                         break;
@@ -77,7 +78,7 @@ public class ECommerceApp {
         System.out.println("2. View all items");
         System.out.println("3. Add an item");
         System.out.println("4. Delete an item");
-        System.out.println("5. Categorize an item");
+        System.out.println("5. Categorize items");
     }
 
     private static Object composeAbstractItem(String input) throws ClassNotFoundException, InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {
