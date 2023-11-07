@@ -8,7 +8,7 @@ import java.io.IOException;
 import java.util.*;
 
 public class ItemProcessor {
-    private final LinkedHashMap<UUID, AbstractItem> inventory;
+    private final LinkedHashMap<Integer, AbstractItem> inventory;
 
     public ItemProcessor() {
         inventory = new LinkedHashMap<>();
@@ -36,7 +36,7 @@ public class ItemProcessor {
         }
     }
 
-    public AbstractItem getItem(UUID id) {
+    public AbstractItem getItem(int id) {
         if (!itemExistsById(id)) {
             System.out.println("The item does not exist.");
         }
@@ -44,7 +44,7 @@ public class ItemProcessor {
     }
 
     public void findAllItems() {
-        for (Map.Entry<UUID, AbstractItem> entry: inventory.entrySet()) {
+        for (Map.Entry<Integer, AbstractItem> entry: inventory.entrySet()) {
             System.out.println(entry.getValue());
         }
         if (inventory.isEmpty()) {
@@ -61,11 +61,11 @@ public class ItemProcessor {
     public boolean itemExistsByName(String item) {
         return inventory.values().stream().anyMatch(x -> x.getName().equals(item));
     }
-    public boolean itemExistsById(UUID id) {
+    public boolean itemExistsById(int id) {
         return inventory.values().stream().anyMatch(x -> x.getId() == id);
     }
 
-    public int sellQuantity(UUID id, int quantity) {
+    public int sellQuantity(int id, int quantity) {
         int soldQuantity = 0;
         if (inventory.containsKey(id)) {
             int currentQuantity = inventory.get(id).getQuantity();

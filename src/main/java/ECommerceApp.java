@@ -35,7 +35,7 @@ public class ECommerceApp {
                         Order order = new Order();
                         String input = scanner.nextLine();
                         while (!input.equalsIgnoreCase("exit")) {
-                            UUID itemId = UUID.fromString(input);
+                            int itemId = Integer.parseInt(input);
                             int quantity = Integer.parseInt(scanner.nextLine());
                             int soldQuantity = itemProcessor.sellQuantity(itemId, quantity);
                             order.addToCart(itemProcessor.getItem(itemId), soldQuantity);

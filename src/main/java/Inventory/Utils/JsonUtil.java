@@ -56,7 +56,7 @@ public class JsonUtil {
         write(newItems);
     }
 
-    public void removeItem(UUID id) throws IOException {
+    public void removeItem(int id) throws IOException {
         AbstractItem[] currentItems = read();
         AbstractItem[] newItems = Arrays.stream(currentItems).filter(x -> x.getId() != id).toArray(AbstractItem[]::new);
         write(newItems);

@@ -1,1 +1,1 @@
-[{"category":"Grocery","id":"4a4c9edc-a606-4e14-8cc6-47936e434d63","name":"Banana","category":null,"breakable":false,"perishable":true,"price":3.0,"quantity":100},{"category":"Grocery","id":"4c01ba49-2815-4800-b6c8-d424fc3f9601","name":"Cherry","category":"Merry","breakable":false,"perishable":true,"price":2.4,"quantity":100}]
+[{"category":"Grocery","id":2,"name":"Banana","category":"Fruits","breakable":false,"perishable":true,"price":2.49,"quantity":120}]

@@ -1,9 +1,9 @@
 package Inventory.Items;
 
 import Inventory.Types.*;
-import com.fasterxml.jackson.annotation.*;
-
-import java.util.UUID;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "category")
 @JsonSubTypes({
@@ -12,7 +12,8 @@ import java.util.UUID;
         @JsonSubTypes.Type(value = FragileItem.class, name = "Fragile")
 })
 public abstract class AbstractItem implements Item, Categorizable, Breakable, Perishable, Sellable {
-    private UUID id;
+    private static int nextItemId = 1;
+    private int id;
     private String name;
     private String category;
     private boolean breakable;
@@ -20,10 +21,15 @@ public abstract class AbstractItem implements Item, Categorizable, Breakable, Pe
     private double price;
     private int quantity;
 
+
+    public static void setNextItemId(int nextItemId) {
+        AbstractItem.nextItemId = nextItemId;
+    }
+
     public AbstractItem() {
     }
 
-    public AbstractItem setId(UUID id) {
+    public AbstractItem setId(int id) {
         this.id = id;
         return this;
     }
@@ -54,7 +60,7 @@ public abstract class AbstractItem implements Item, Categorizable, Breakable, Pe
     }
 
     public AbstractItem(String name, String category, double price, int quantity) {
-        this.id = UUID.randomUUID();
+        this.id = nextItemId++;
         this.name = name;
         this.category = category;
         this.price = price;
@@ -82,7 +88,7 @@ public abstract class AbstractItem implements Item, Categorizable, Breakable, Pe
 
     }
 
-    public UUID getId() {
+    public int getId() {
         return id;
     }
 
