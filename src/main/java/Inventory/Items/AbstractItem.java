@@ -1,10 +1,18 @@
 package Inventory.Items;
 
 import Inventory.Types.*;
+import com.fasterxml.jackson.annotation.*;
 
+import java.util.UUID;
+
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "category")
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = GroceryItem.class, name = "Grocery"),
+        @JsonSubTypes.Type(value = ElectronicsItem.class, name = "Electronics"),
+        @JsonSubTypes.Type(value = FragileItem.class, name = "Fragile")
+})
 public abstract class AbstractItem implements Item, Categorizable, Breakable, Perishable, Sellable {
-    private static int nextItemId = 1;
-    private int id;
+    private UUID id;
     private String name;
     private String category;
     private boolean breakable;
@@ -12,12 +20,10 @@ public abstract class AbstractItem implements Item, Categorizable, Breakable, Pe
     private double price;
     private int quantity;
 
-
-    public static void setNextItemId(int nextItemId) {
-        AbstractItem.nextItemId = nextItemId;
+    public AbstractItem() {
     }
 
-    public AbstractItem setId(int id) {
+    public AbstractItem setId(UUID id) {
         this.id = id;
         return this;
     }
@@ -48,13 +54,14 @@ public abstract class AbstractItem implements Item, Categorizable, Breakable, Pe
     }
 
     public AbstractItem(String name, String category, double price, int quantity) {
-        this.id = nextItemId++;
+        this.id = UUID.randomUUID();
         this.name = name;
         this.category = category;
         this.price = price;
         this.quantity = quantity;
     }
 
+    @JsonIgnore
     public String getItemDetails() {
         return String.format("%s, %s, %s, %s, %.2f", this.name, this.category, this.breakable, this.perishable, this.price);
     }
@@ -63,6 +70,7 @@ public abstract class AbstractItem implements Item, Categorizable, Breakable, Pe
         return price;
     }
 
+    @JsonIgnore
     public String getItemDescription() {
         return "This is a " + name + " in the " + category + " category.";
     }
@@ -74,7 +82,7 @@ public abstract class AbstractItem implements Item, Categorizable, Breakable, Pe
 
     }
 
-    public int getId() {
+    public UUID getId() {
         return id;
     }
 

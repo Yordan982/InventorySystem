@@ -1,14 +1,16 @@
 import Inventory.*;
 import Inventory.Items.AbstractItem;
-import Inventory.Items.GroceryItem;
+import Inventory.Utils.JsonUtil;
 
+import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.Scanner;
+import java.util.UUID;
 
 public class ECommerceApp {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         InventoryManager inventoryManager = new InventoryManager();
         PaymentProcessor paymentProcessor = new PaymentProcessor();
         ItemProcessor itemProcessor = new ItemProcessor();
@@ -17,15 +19,13 @@ public class ECommerceApp {
         displayMenu();
         boolean isRunning = true;
         ItemFactory itemFactory = new ItemFactory();
-
-        GroceryItem item = new GroceryItem("Banana", "Fruit", 2.69, 100);
-        GroceryItem item2 = new GroceryItem("Pineapple", "Fruit", 3.89, 100);
-        itemProcessor.addItem(item);
-        itemProcessor.addItem(item2);
+        JsonUtil jsonUtil = new JsonUtil();
+        AbstractItem[] items = jsonUtil.read();
+        itemProcessor.fillInventory(items);
 
         while (isRunning) {
             try {
-                System.out.print("Enter command (1-5): ");
+                System.out.print("Enter command (1-6): ");
                 int choice = Integer.parseInt(scanner.nextLine());
                 switch (choice) {
                     case 1:
@@ -35,7 +35,7 @@ public class ECommerceApp {
                         Order order = new Order();
                         String input = scanner.nextLine();
                         while (!input.equalsIgnoreCase("exit")) {
-                            int itemId = Integer.parseInt(input);
+                            UUID itemId = UUID.fromString(input);
                             int quantity = Integer.parseInt(scanner.nextLine());
                             int soldQuantity = itemProcessor.sellQuantity(itemId, quantity);
                             order.addToCart(itemProcessor.getItem(itemId), soldQuantity);
@@ -60,6 +60,9 @@ public class ECommerceApp {
                         break;
                     case 5:
                         break;
+                    case 6:
+                        isRunning = false;
+                        break;
                     default:
                         System.out.println("Invalid command. Please try again.");
                         break;
@@ -68,7 +71,7 @@ public class ECommerceApp {
                 System.out.println(exception.getMessage());
             }
         }
-
+        itemProcessor.writeInventory();
         scanner.close();
     }
 
@@ -79,6 +82,7 @@ public class ECommerceApp {
         System.out.println("3. Add an item");
         System.out.println("4. Delete an item");
         System.out.println("5. Categorize items");
+        System.out.println("6. Exit application");
     }
 
     private static Object composeAbstractItem(String input) throws ClassNotFoundException, InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {

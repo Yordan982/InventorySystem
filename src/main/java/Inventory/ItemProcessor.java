@@ -1,14 +1,14 @@
 package Inventory;
 
 import Inventory.Items.AbstractItem;
+import Inventory.Utils.JsonUtil;
 
 import javax.management.openmbean.KeyAlreadyExistsException;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.IOException;
+import java.util.*;
 
 public class ItemProcessor {
-    private final LinkedHashMap<Integer, AbstractItem> inventory;
+    private final LinkedHashMap<UUID, AbstractItem> inventory;
 
     public ItemProcessor() {
         inventory = new LinkedHashMap<>();
@@ -36,7 +36,7 @@ public class ItemProcessor {
         }
     }
 
-    public AbstractItem getItem(int id) {
+    public AbstractItem getItem(UUID id) {
         if (!itemExistsById(id)) {
             System.out.println("The item does not exist.");
         }
@@ -44,7 +44,7 @@ public class ItemProcessor {
     }
 
     public void findAllItems() {
-        for (Map.Entry<Integer, AbstractItem> entry: inventory.entrySet()) {
+        for (Map.Entry<UUID, AbstractItem> entry: inventory.entrySet()) {
             System.out.println(entry.getValue());
         }
         if (inventory.isEmpty()) {
@@ -61,11 +61,11 @@ public class ItemProcessor {
     public boolean itemExistsByName(String item) {
         return inventory.values().stream().anyMatch(x -> x.getName().equals(item));
     }
-    public boolean itemExistsById(int id) {
+    public boolean itemExistsById(UUID id) {
         return inventory.values().stream().anyMatch(x -> x.getId() == id);
     }
 
-    public int sellQuantity(int id, int quantity) {
+    public int sellQuantity(UUID id, int quantity) {
         int soldQuantity = 0;
         if (inventory.containsKey(id)) {
             int currentQuantity = inventory.get(id).getQuantity();
@@ -78,5 +78,15 @@ public class ItemProcessor {
             }
         }
         return soldQuantity;
+    }
+
+    public void fillInventory(AbstractItem[] items) {
+        Arrays.stream(items).forEach(this::addItem);
+    }
+
+    public void writeInventory() throws IOException {
+        AbstractItem[] items = this.inventory.values().toArray(AbstractItem[]::new);
+        JsonUtil jsonUtil = new JsonUtil();
+        jsonUtil.write(items);
     }
 }
