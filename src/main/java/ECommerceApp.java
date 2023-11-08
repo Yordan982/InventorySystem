@@ -7,7 +7,6 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Arrays;
 import java.util.Scanner;
-import java.util.UUID;
 
 public class ECommerceApp {
     public static void main(String[] args) throws IOException {
@@ -22,6 +21,7 @@ public class ECommerceApp {
         JsonUtil jsonUtil = new JsonUtil();
         AbstractItem[] items = jsonUtil.read();
         itemProcessor.fillInventory(items);
+        Order order = new Order();
 
         while (isRunning) {
             try {
@@ -32,7 +32,6 @@ public class ECommerceApp {
                         itemProcessor.findAllItems();
                         System.out.println("Please enter item id and quantity, each on a new line:");
                         System.out.println("Type Exit when you want to exit this command");
-                        Order order = new Order();
                         String input = scanner.nextLine();
                         while (!input.equalsIgnoreCase("exit")) {
                             int itemId = Integer.parseInt(input);
@@ -43,24 +42,28 @@ public class ECommerceApp {
                         }
                         order.showOrder();
                         order.calculateOrderTotal();
+                        isRunning = false;
                         break;
                     case 2:
                         itemProcessor.findAllItems();
                         break;
                     case 3:
-                        System.out.println("Please enter the following info, separated by comma:");
+                        System.out.println("Please enter the following info, separated by a space:");
                         System.out.println("Product type, name, category, price, quantity:");
                         String tryNewItem = scanner.nextLine();
-                        AbstractItem newItem = itemFactory.getInstance(tryNewItem.split(" "));
+                        AbstractItem newItem = itemFactory.getInstance(tryNewItem.split("\\s+"));
                         itemProcessor.addItem(newItem);
+                        System.out.println("Successfully registered item.");
                         break;
                     case 4:
                         System.out.print("Enter item id: ");
                         itemProcessor.removeItem(scanner.nextLine());
                         break;
                     case 5:
+                        itemProcessor.categorizedItems();
                         break;
                     case 6:
+                        System.out.println("All data is now saved.");
                         isRunning = false;
                         break;
                     default:
@@ -68,7 +71,7 @@ public class ECommerceApp {
                         break;
                 }
             } catch (Exception exception) {
-                System.out.println(exception.getMessage());
+                System.out.println("Invalid input. Choose an option from the menu.");
             }
         }
         itemProcessor.writeInventory();
@@ -82,7 +85,7 @@ public class ECommerceApp {
         System.out.println("3. Add an item");
         System.out.println("4. Delete an item");
         System.out.println("5. Categorize items");
-        System.out.println("6. Exit application");
+        System.out.println("6. Exit and save data");
     }
 
     private static Object composeAbstractItem(String input) throws ClassNotFoundException, InstantiationException, IllegalAccessException, NoSuchMethodException, InvocationTargetException {

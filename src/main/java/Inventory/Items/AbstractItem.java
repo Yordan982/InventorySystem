@@ -1,11 +1,12 @@
 package Inventory.Items;
 
+import Inventory.ItemProcessor;
 import Inventory.Types.*;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
-@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "category")
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, property = "type")
 @JsonSubTypes({
         @JsonSubTypes.Type(value = GroceryItem.class, name = "Grocery"),
         @JsonSubTypes.Type(value = ElectronicsItem.class, name = "Electronics"),
@@ -21,12 +22,11 @@ public abstract class AbstractItem implements Item, Categorizable, Breakable, Pe
     private double price;
     private int quantity;
 
+    public AbstractItem() {
+    }
 
     public static void setNextItemId(int nextItemId) {
         AbstractItem.nextItemId = nextItemId;
-    }
-
-    public AbstractItem() {
     }
 
     public AbstractItem setId(int id) {
@@ -60,7 +60,6 @@ public abstract class AbstractItem implements Item, Categorizable, Breakable, Pe
     }
 
     public AbstractItem(String name, String category, double price, int quantity) {
-        this.id = nextItemId++;
         this.name = name;
         this.category = category;
         this.price = price;
@@ -85,7 +84,7 @@ public abstract class AbstractItem implements Item, Categorizable, Breakable, Pe
         return category;
     }
     public void setCategory(String category) {
-
+        this.category = category;
     }
 
     public int getId() {

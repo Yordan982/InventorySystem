@@ -16,8 +16,8 @@ public class ItemProcessor {
 
     public void addItem(AbstractItem item) {
         if (itemExists(item)) throw new KeyAlreadyExistsException("The item is already registered.");
+        item.setId(generateId());
         inventory.put(item.getId(), item);
-        System.out.println("Successfully registered item.");
     }
     public void removeItem(String id) {
         if (!id.matches("\\d+")) throw new IllegalArgumentException("Input must be a valid number.");
@@ -51,8 +51,11 @@ public class ItemProcessor {
             System.out.println("The list is empty.");
         }
     }
-    public Map<String, List<AbstractItem>> categorizedItems(){
-        return null;
+    public void categorizedItems(){
+        List<AbstractItem> items = this.inventory.values().stream().sorted(Comparator.comparing(AbstractItem::getCategory)).toList();
+        for (AbstractItem item: items) {
+            System.out.println(item.toString());
+        }
     }
 
     public boolean itemExists(AbstractItem item) {
@@ -88,5 +91,14 @@ public class ItemProcessor {
         AbstractItem[] items = this.inventory.values().toArray(AbstractItem[]::new);
         JsonUtil jsonUtil = new JsonUtil();
         jsonUtil.write(items);
+    }
+    public int generateId() {
+        int newIndex = 0;
+        if (inventory.isEmpty()){
+            newIndex++;
+        } else {
+            newIndex = this.inventory.keySet().stream().reduce((first, second) -> second).get() + 1;
+        }
+        return newIndex;
     }
 }

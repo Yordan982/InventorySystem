@@ -1,1 +1,28 @@
-[{"category":"Grocery","id":2,"name":"Banana","category":"Fruits","breakable":false,"perishable":true,"price":2.49,"quantity":120}]
+[ {
+  "type" : "Grocery",
+  "id" : 1,
+  "name" : "Banana",
+  "category" : "Fruits",
+  "breakable" : false,
+  "perishable" : true,
+  "price" : 2.39,
+  "quantity" : 80
+}, {
+  "type" : "Fragile",
+  "id" : 2,
+  "name" : "Vase",
+  "category" : "Decoration",
+  "breakable" : true,
+  "perishable" : false,
+  "price" : 14.99,
+  "quantity" : 15
+}, {
+  "type" : "Grocery",
+  "id" : 3,
+  "name" : "Cherry",
+  "category" : "Fruits",
+  "breakable" : false,
+  "perishable" : true,
+  "price" : 3.39,
+  "quantity" : 120
+} ]

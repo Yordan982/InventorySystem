@@ -11,7 +11,6 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.UUID;
 
 public class JsonUtil {
 
@@ -30,7 +29,7 @@ public class JsonUtil {
 
     public void write(AbstractItem[] abstractItem) throws IOException {
 
-        objectMapper.writeValue(new File(writeItemsFile), abstractItem);
+        objectMapper.writerWithDefaultPrettyPrinter().writeValue(new File(writeItemsFile), abstractItem);
 
     }
 
@@ -48,7 +47,7 @@ public class JsonUtil {
         return items;
     }
 
-    public void adJdItem(AbstractItem item) throws IOException {
+    public void addJdItem(AbstractItem item) throws IOException {
         AbstractItem[] currentItems = read();
         AbstractItem[] newItems = new AbstractItem[currentItems.length+1];
         System.arraycopy(currentItems, 0, newItems, 0, currentItems.length);

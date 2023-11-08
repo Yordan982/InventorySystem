@@ -16,11 +16,9 @@ public class ElectronicsItem extends AbstractItem {
 
     @Override
     public void handleBreakage() {
-
     }
 
     @Override
     public void handleExpiration() {
-
     }
 }
